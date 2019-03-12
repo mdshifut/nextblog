@@ -1,0 +1,25 @@
+{
+ "name": "nextjs-blog",
+ "version": "1.0.0",
+ "description": "",
+ "main": "index.js",
+ "scripts": {
+  "dev": "node server/server.js",
+  "build": "next build",
+  "start": "NODE_ENV=production node server/server.js"
+ },
+ "keywords": [],
+ "author": "",
+ "license": "ISC",
+ "dependencies": {
+  "express": "^4.16.4",
+  "next": "^8.0.3",
+  "next-redux-wrapper": "^3.0.0-alpha.2",
+  "nodemon": "^1.18.10",
+  "react": "^16.8.4",
+  "react-dom": "^16.8.4",
+  "react-redux": "^6.0.1",
+  "redux": "^4.0.1",
+  "redux-thunk": "^2.3.0"
+ }
+}
