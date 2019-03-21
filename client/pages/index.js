@@ -1,34 +1,17 @@
-import { Component } from 'react';
+import { Component, Fragment } from 'react';
 import Link from 'next/link';
-import { connect } from 'react-redux';
-import { SET_MESSAGE } from '../store/actions/actionTypes';
+
+import Layout from '../components/Layout';
 
 class Index extends Component {
-  onClickHandler = () => {
-    this.props.dispatch({
-      type: SET_MESSAGE,
-      payload: {
-        message: 'some thing will be good we are in home page'
-      }
-    });
-  };
   render() {
     return (
-      <div>
+      <Layout>
         <Link href="/about">
           <a>about</a>
         </Link>
-        Our Home page <button onClick={this.onClickHandler}>Set message</button>
-        {this.props.meta.message}
-        <style jsx>
-          {`
-            button {
-              color: ${this.props.meta.message ? 'red' : 'green'};
-            }
-          `}
-        </style>
-      </div>
+      </Layout>
     );
   }
 }
-export default connect(state => state)(Index);
+export default Index;

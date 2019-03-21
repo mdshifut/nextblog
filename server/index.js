@@ -38,6 +38,7 @@ app.prepare().then(() => {
   server.use(bodyParser.json());
   server.use(bodyParser.urlencoded({ extended: true }));
 
+  // API
   // User Route
   server.use('/api/user', require('./routes/userRoutes'));
 
@@ -53,6 +54,21 @@ app.prepare().then(() => {
   // Reply Route
   server.use('/api/category', require('./routes/categoryRoute'));
   // Root route
+
+  // serve pages
+
+  server.get('/registrationconfirmation/:id', (req, res) => {
+    const actualPage = '/registrationconfirmation';
+    const queryParams = { id: req.params.id };
+    app.render(req, res, actualPage, queryParams);
+  });
+
+  server.get('/activeaccount/:token/:user', (req, res) => {
+    const { token, user } = req.params;
+    const actualPage = '/activeaccount';
+    const queryParams = { token, user };
+    app.render(req, res, actualPage, queryParams);
+  });
 
   server.get('*', (req, res) => handle(req, res));
 
