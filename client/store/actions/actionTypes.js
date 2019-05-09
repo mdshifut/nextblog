@@ -1,5 +1,8 @@
-export const CATCH_ERROR = 'CATCH_ERROR';
-export const SET_USER = 'SET_USER';
-export const SET_MESSAGE = 'SET_MESSAGE';
-export const LOADING_STATE = 'LOADING_STATE';
-export const INLINE_LOADING_STATE = 'INLINE_LOADING_STATE';
+export const CATCH_ERROR = "CATCH_ERROR";
+export const SET_USER = "SET_USER";
+export const SET_MESSAGE = "SET_MESSAGE";
+export const LOADING_STATE = "LOADING_STATE";
+export const INLINE_LOADING_STATE = "INLINE_LOADING_STATE";
+export const USER_MENU_TRIGGER = "USER_MENU_TRIGGER";
+export const ADD_POST_CONTENT = "ADD_POST_CONTENT";
+export const MODAL_TRIGGER = "MODAL_TRIGGER";

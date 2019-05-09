@@ -5,7 +5,7 @@ import { toast } from 'react-toastify';
 import axios from 'axios';
 import { inlineLoading } from '../../store/actions/metaActions';
 import { catchError } from './errorActions';
-
+import { setCookie } from '../../utils/cookieUtils';
 // Sign up user/
 export const signUp = ({ user, router }) => async dispatch => {
   try {
@@ -59,10 +59,8 @@ export const signUp = ({ user, router }) => async dispatch => {
 export const signIn = ({
   user,
   router,
-  userNavTriggerBtnClickHandeler = null
+  userMenuTrigger = null
 }) => async dispatch => {
-  console.log(router);
-
   try {
     const { message = '', error = '', token } = (await axios.post(
       '/api/user/login',
@@ -72,7 +70,7 @@ export const signIn = ({
     // If receiving the error then show the error
     if (error) {
       // If user sign in by user nav then show the error inside it
-      if (userNavTriggerBtnClickHandeler) {
+      if (userMenuTrigger) {
         dispatch(catchError({ signInNav: error }));
         return {
           isSignInDone: false
@@ -89,6 +87,8 @@ export const signIn = ({
     dispatch(catchError({ signInNav: {}, signIn: {} }));
 
     localStorage.setItem('auth_token', token);
+
+    setCookie('x-access-token', token);
     setAuthToken(token);
 
     const decode = jwtDecode(token);
@@ -99,8 +99,8 @@ export const signIn = ({
     toast.success(message, { autoClose: 1000 });
 
     // If user Sign In by User card then close it and show success message
-    if (userNavTriggerBtnClickHandeler) {
-      userNavTriggerBtnClickHandeler();
+    if (userMenuTrigger) {
+      userMenuTrigger();
 
       return {
         isSignInDone: true
@@ -108,7 +108,7 @@ export const signIn = ({
     }
 
     // If youser Sign In by Sign In page then redirect user to the user dashboard
-    router && router.push('/dashboard');
+    // router && router.push('/dashboard');
     return {
       isSignInDone: true
     };
@@ -123,7 +123,7 @@ export const signIn = ({
 // Reset password/
 export const resetPassword = ({
   userInfo,
-  userNavTriggerBtnClickHandeler = null
+  userMenuTrigger = null
 }) => async dispatch => {
   try {
     const { message = '', error = '' } = (await axios.post(
@@ -144,7 +144,7 @@ export const resetPassword = ({
       }
 
       // If user reset password by user nav then show the error inside it
-      if (userNavTriggerBtnClickHandeler) {
+      if (userMenuTrigger) {
         dispatch(catchError({ passwordResetNav: error }));
         return {
           isResetDone: false
@@ -164,8 +164,8 @@ export const resetPassword = ({
     toast.success(message, { autoClose: 2000 });
 
     // If user reset password by User card the close it and show success message
-    if (userNavTriggerBtnClickHandeler) {
-      userNavTriggerBtnClickHandeler();
+    if (userMenuTrigger) {
+      userMenuTrigger();
       return {
         isResetDone: true
       };
@@ -184,7 +184,11 @@ export const resetPassword = ({
 }; //End Reset password
 
 // Create new password/
-export const createNewPassword = ({ newPassword, token }) => async dispatch => {
+export const createNewPassword = ({
+  newPassword,
+  token,
+  router
+}) => async dispatch => {
   try {
     const { message = '', error = '' } = (await axios.post(
       '/api/user/createnewpassword',
@@ -214,7 +218,8 @@ export const createNewPassword = ({ newPassword, token }) => async dispatch => {
     // Reset all error after creating new password successfully
     dispatch(catchError({ createNewPassword: error }));
 
-    return toast.success(message, { autoClose: 1000 });
+    toast.success(message, { autoClose: 1000 });
+    return router.push('/signin');
   } catch (error) {
     toast.error('Serve not responding. Please try again...');
     return {

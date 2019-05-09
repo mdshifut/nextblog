@@ -1,13 +1,13 @@
-const PostModel = require('../models/post/PostModel');
-const CommentModel = require('../models/post/CommentModel');
-const ReplyModel = require('../models/post/ReplyModel');
-const postValidator = require('../validator/postValidator');
-const slug = require('slug');
-const mongoose = require('mongoose');
-const catchError = require('../utils/catchError');
+const PostModel = require("../models/post/PostModel");
+const CommentModel = require("../models/post/CommentModel");
+const ReplyModel = require("../models/post/ReplyModel");
+const postValidator = require("../validator/postValidator");
+const slug = require("slug");
+const mongoose = require("mongoose");
+const catchError = require("../utils/catchError");
 // Create new post
 const createNewPost = async (req, res, next) => {
-  const { title, description, category, tags, featuredItems } = req.body;
+  const { title, description, category, tags, galleryContent } = req.body;
 
   try {
     const postData = {
@@ -16,7 +16,7 @@ const createNewPost = async (req, res, next) => {
       description,
       category,
       tags,
-      featuredItems,
+      galleryContent,
       slug: slug(title)
     };
 
@@ -57,7 +57,7 @@ const editPost = async (req, res, next) => {
 
     if (!post.author.equals(req.userData._id)) {
       return res.json({
-        message: 'You are not premited to edit this post'
+        message: "You are not premited to edit this post"
       });
     }
 
@@ -65,12 +65,12 @@ const editPost = async (req, res, next) => {
 
     if (!updatedPost) {
       return res.json({
-        message: 'Update failed'
+        message: "Update failed"
       });
     }
 
     return res.json({
-      message: 'Updated successfully'
+      message: "Updated successfully"
     });
   } catch (error) {
     return catchError(res, error);
@@ -87,30 +87,30 @@ const getSinglePost = async (req, res, next) => {
     if (mongoose.Types.ObjectId.isValid(postquery)) {
       post = await PostModel.findById(postquery)
         .populate({
-          path: 'comments',
+          path: "comments",
           populate: {
-            path: 'replies',
-            populate: { path: 'author', select: ['firstName', 'lastName'] }
+            path: "replies",
+            populate: { path: "author", select: ["firstName", "lastName"] }
           }
         })
-        .populate('author')
-        .populate('category');
+        .populate("author")
+        .populate("category");
     } else {
       post = await PostModel.findOne({ slug: postquery })
         .populate({
-          path: 'comments',
+          path: "comments",
           populate: {
-            path: 'replies',
-            populate: { path: 'author', select: ['firstName', 'lastName'] }
+            path: "replies",
+            populate: { path: "author", select: ["firstName", "lastName"] }
           }
         })
-        .populate('author')
-        .populate('category');
+        .populate("author")
+        .populate("category");
     }
 
     if (!post) {
       return res.json({
-        message: 'Post not found'
+        message: "Post not found"
       });
     }
 
@@ -137,7 +137,7 @@ const deletePost = async (req, res, next) => {
     // Check post creator and current author is same
     if (!post.author.equals(req.userData.userId)) {
       return res.json({
-        message: 'You are not premited to delete this post'
+        message: "You are not premited to delete this post"
       });
     }
 
@@ -158,12 +158,12 @@ const deletePost = async (req, res, next) => {
 
     if (!deletedPost) {
       return res.json({
-        message: 'Operation failed'
+        message: "Operation failed"
       });
     }
 
     return res.json({
-      message: 'Delete successfully'
+      message: "Delete successfully"
     });
   } catch (error) {
     return catchError(res, error);

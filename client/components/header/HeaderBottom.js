@@ -1,8 +1,9 @@
-import { Row, Col } from 'reactstrap';
-import { Fragment } from 'react';
-import NavLink from './NavLink';
-import SocialLink from './SocialLink';
-const HeaderBottom = () => {
+import { Row, Col } from "reactstrap";
+import { Fragment } from "react";
+import { connect } from "react-redux";
+import NavLink from "./NavLink";
+import SocialLink from "./SocialLink";
+const HeaderBottom = props => {
   return (
     <Fragment>
       <Row>
@@ -13,6 +14,11 @@ const HeaderBottom = () => {
               <NavLink href="/" title="Scince" />
               <NavLink href="/" title="Technolgy" />
               <NavLink href="/" title="Contact Us" />
+              {/* <li>
+                {props.auth.isAuthenticated
+                  ? props.auth.user.userName
+                  : "No user found"}
+              </li> */}
             </ul>
           </nav>
         </Col>
@@ -39,6 +45,9 @@ const HeaderBottom = () => {
         {`
           ul {
             padding-top: 10px;
+            margin: 0;
+            padding: 0;
+            list-style: none;
           }
           .social__ul {
             text-align: right;
@@ -53,4 +62,8 @@ const HeaderBottom = () => {
   );
 };
 
-export default HeaderBottom;
+const mapStateToProps = state => ({
+  auth: state.auth
+});
+
+export default connect(mapStateToProps)(HeaderBottom);

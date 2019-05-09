@@ -47,7 +47,7 @@ class SignInForm extends Component {
     const result = await this.props.signIn({
       user,
       router: this.props.router,
-      userNavTriggerBtnClickHandeler: this.props.userNavTriggerBtnClickHandeler
+      userMenuTrigger: this.props.userMenuTrigger
     });
 
     if (result.isSignInDone)
@@ -70,7 +70,9 @@ class SignInForm extends Component {
       >
         <InputGroup
           name="userName"
-          inputId={this.props.isUserNav ? 'userNavName' : 'signInUserName'}
+          inputId={
+            this.props.isPopOverForm ? 'popOverFormName' : 'signInUserName'
+          }
           className="signUpSignInFrom"
           placeholder="Enter your username or email"
           type="text"
@@ -78,19 +80,21 @@ class SignInForm extends Component {
           onChange={this.changeHandeler}
           value={this.state.userName}
           isInvalid={
-            this.props.isUserNav
+            this.props.isPopOverForm
               ? !!this.props.error.signInNav.userName
               : !!this.props.error.signIn.userName
           }
           fromFeddback={
-            this.props.isUserNav
+            this.props.isPopOverForm
               ? this.props.error.signInNav.userName
               : this.props.error.signIn.userName
           }
         />
         <InputGroup
           name="password"
-          inputId={this.props.isUserNav ? 'userNavPassword' : 'signInPassword'}
+          inputId={
+            this.props.isPopOverForm ? 'popOverFormPassword' : 'signInPassword'
+          }
           className="signUpSignInFrom"
           type="password"
           placeholder="Password"
@@ -98,23 +102,23 @@ class SignInForm extends Component {
           onChange={this.changeHandeler}
           value={this.state.password}
           isInvalid={
-            this.props.isUserNav
+            this.props.isPopOverForm
               ? !!this.props.error.signInNav.password
               : !!this.props.error.signIn.password
           }
           fromFeddback={
-            this.props.isUserNav
+            this.props.isPopOverForm
               ? this.props.error.signInNav.password
               : this.props.error.signIn.password
           }
         />
         <div className="clearfix">
-          {this.props.isUserNav ? (
+          {this.props.isPopOverForm ? (
             <span
               className="float-right signUpSignInFrom__link"
               onClick={this.props.formChangeHandeler}
             >
-              Forgot your password <i className="fas fa-arrow-right" />
+              Forgot your password <i className="fa fa-arrow-right" />
             </span>
           ) : (
             <Link href="/reset-password">

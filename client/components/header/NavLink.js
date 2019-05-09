@@ -1,4 +1,4 @@
-import Link from 'next/link';
+import Link from "next/link";
 
 const NavLink = ({ href, title }) => {
   return (
@@ -7,6 +7,9 @@ const NavLink = ({ href, title }) => {
         <a>{title}</a>
       </Link>
       <style jsx>{`
+        li {
+          display: inline-block;
+        }
         a {
           padding: 0 5px;
         }

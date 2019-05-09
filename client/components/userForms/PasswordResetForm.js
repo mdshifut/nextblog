@@ -40,7 +40,7 @@ class PasswordResetForm extends Component {
 
     const result = await this.props.resetPassword({
       userInfo,
-      userNavTriggerBtnClickHandeler: this.props.userNavTriggerBtnClickHandeler
+      userMenuTrigger: this.props.userMenuTrigger
     });
 
     if (result.isResetDone)
@@ -62,7 +62,7 @@ class PasswordResetForm extends Component {
       >
         <InputGroup
           name="userInfo"
-          inputId={this.props.isUserNav ? 'userCardUser' : 'resetUser'}
+          inputId={this.props.isPopOverForm ? 'popOverFormUser' : 'resetUser'}
           className="signUpSignInFrom"
           placeholder="Enter your username or email"
           type="text"
@@ -70,23 +70,23 @@ class PasswordResetForm extends Component {
           onChange={this.changeHandeler}
           value={this.state.userInfo}
           isInvalid={
-            this.props.isUserNav
+            this.props.isPopOverForm
               ? !!this.props.error.passwordResetNav.userInfo
               : !!this.props.error.passwordReset.userInfo
           }
           fromFeddback={
-            this.props.isUserNav
+            this.props.isPopOverForm
               ? this.props.error.passwordResetNav.userInfo
               : this.props.error.passwordReset.userInfo
           }
         />
         <div className="clearfix">
-          {this.props.isUserNav ? (
+          {this.props.isPopOverForm ? (
             <span
               className="float-right signUpSignInFrom__link"
               onClick={this.props.formChangeHandeler}
             >
-              <i className="fas fa-arrow-left" /> Back to Sign In
+              <i className="fa fa-arrow-left" /> Back to Sign In
             </span>
           ) : (
             <Link href="/signin">

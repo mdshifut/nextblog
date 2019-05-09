@@ -1,7 +1,7 @@
-import { Row, Col } from 'reactstrap';
-import Link from 'next/link';
-import UserCard from './userCard';
-import { colorWhite } from '../../utils/cssVariables';
+import { Row, Col } from "reactstrap";
+import Link from "next/link";
+import { colorWhite } from "../../utils/cssVariables";
+import UserMenu from "./userMenu";
 
 const HeaderTop = () => {
   return (
@@ -20,10 +20,7 @@ const HeaderTop = () => {
             <li>
               <i className="fa fa-bell" />
             </li>
-
-            <li>
-              <UserCard />
-            </li>
+            <UserMenu />
           </ul>
         </Col>
       </Row>
@@ -44,14 +41,20 @@ const HeaderTop = () => {
         }
 
         ul {
-          padding: 9.2px 0;
+          margin: 0;
+          padding: 0;
+          list-style: none;
+
           text-align: right;
+          line-height: 1;
         }
         li {
           font-size: 20px;
-          margin-left: 15px;
+          margin-right: 15px;
           cursor: pointer;
           transition: 0.3s;
+          padding: 15px 0;
+          display: inline-block;
         }
       `}</style>
     </div>

@@ -5,7 +5,9 @@ import makeStore from '../store/index';
 import { Provider } from 'react-redux';
 import withRedux from 'next-redux-wrapper';
 import { toast } from 'react-toastify';
-
+import jwtDecode from 'jwt-decode';
+import setAuthToken from '../utils/setAuthToken';
+import { setUser } from '../store/actions/authActions';
 import {
   colorDeepBlack,
   colorGrayDeep,
@@ -14,20 +16,21 @@ import {
 
 import 'bootstrap/dist/css/bootstrap.css';
 
-// Check user is login or not
-// const token = localStorage.getItem('auth_token');
-// if (token) {
-//   const decode = jwtDecode(token);
-//   if (decode.exp * 1000 > new Date().getTime()) {
-//     store.dispatch(setUser(decode));
-//     setAuthToken(token);
-//   } else {
-//     toast.warn('Login Expired. Please Sign In again...');
-//   }
-// }
-
 class MyApp extends App {
   static async getInitialProps({ Component, ctx }) {
+    const { store, req } = ctx;
+    if (req) {
+      const token = req.cookies['x-access-token'];
+
+      if (token) {
+        const decode = jwtDecode(token.split(' ')[1]);
+        if (decode.exp * 1000 > new Date().getTime()) {
+          store.dispatch(setUser(decode));
+          setAuthToken(token);
+        }
+      }
+    }
+
     let pageProps = {};
     if (Component.getInitialProps) {
       pageProps = await Component.getInitialProps(ctx);

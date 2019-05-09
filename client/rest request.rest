@@ -1,0 +1,9 @@
+POST http://localhost:4000/api/category/newcategory HTTP/1.1
+content-type: application/json
+
+{
+    "name": "Asia"
+}
+
+###
+GET  http://localhost:4000/api/category/getAllCategory HTTP/1.1

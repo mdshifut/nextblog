@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
-import { withRouter, Link } from 'react-router-dom';
+import Link from 'next/link';
+import { withRouter } from 'next/router';
 import { connect } from 'react-redux';
 import { createNewPassword } from '../../store/actions/authActions';
 import InlineLoading from '../InlineLoading';
 import InputGroup from '../InputGroup';
-
-import './userForms.style.scss';
 
 class CreateNewPassword extends Component {
   state = {
@@ -38,11 +37,12 @@ class CreateNewPassword extends Component {
       isLoading: true
     });
     const { password, confirmPassword } = this.state;
-    const { token } = this.props.match.params;
+    const { token } = this.props.router.query;
 
     const result = await this.props.createNewPassword({
       newPassword: { password, confirmPassword },
-      token
+      token,
+      router: this.props.router
     });
 
     if (result.isCreateNewPasswordDone) {
@@ -89,8 +89,10 @@ class CreateNewPassword extends Component {
           fromFeddback={this.props.error.createNewPassword.confirmPassword}
         />
         <div className="clearfix">
-          <Link to="/signin" className="float-right signUpSignInFrom__link">
-            Back to Sign In
+          <Link href="/signin">
+            <a className="float-right signUpSignInFrom__link">
+              Back to Sign In
+            </a>
           </Link>
         </div>
         <button

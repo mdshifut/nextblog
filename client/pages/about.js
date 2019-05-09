@@ -12,7 +12,7 @@ class Index extends Component {
       <div>
         <Link href="/">
           <a>Home</a>
-        </Link>{' '}
+        </Link>
         Our about page
         <button onClick={this.onClickHandler}>Set message</button>
         {this.props.meta.message}
